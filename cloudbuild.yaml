@@ -1,0 +1,7 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/gs-development-168620/github.com/pull-request-size', '.', '--no-cache']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'gcr.io/gs-development-168620/github.com/pull-request-size' ]
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [ 'run', 'deploy', 'pull-request-size', '--project=gs-development-168620', '--image', 'gcr.io/gs-development-168620/github.com/pull-request-size', '--region', 'us-east4', '--allow-unauthenticated' ]
