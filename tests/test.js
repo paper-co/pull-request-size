@@ -13,7 +13,7 @@ const label = {
 }
 const baseURL = `/repos/${owner}/${repo}`
 
-// Mocks
+// Mocks testing
 const mockListFiles = require('./mocks/listFiles.json')
 const mockLabel = require('./mocks/label.json')
 
