@@ -3,6 +3,7 @@ Sentry.init({ dsn: process.env.SENTRY_DSN });
 const generated = require('@noqcks/generated');
 const minimatch = require("minimatch")
 const yaml = require('js-yaml');
+const path = require('path');
 
 const labels = {
   XS: {
@@ -37,6 +38,9 @@ const labels = {
   }
 }
 
+const excludedDirs = [
+    'tests'
+];
 /**
  * sizeLabel will return a string label that can be assigned to a
  * GitHub Pull Request. The label is determined by the lines of code
@@ -181,7 +185,13 @@ module.exports = app => {
     // if files are generated, remove them from the additions/deletions total
     res.data.forEach(function(item) {
       let g = new generated(item.filename, item.patch)
-      if (globMatch(item.filename, customGeneratedFiles) || g.isGenerated()) {
+      var dirname = path.dirname(item.filename).split('/')[0];
+      var isExcludedDir = excludedDirs.indexOf(dirname) !== -1;
+
+      if (globMatch(item.filename, customGeneratedFiles)
+          || g.isGenerated()
+          || isExcludedDir
+      ) {
         additions -= item.additions
         deletions -= item.deletions
       }
