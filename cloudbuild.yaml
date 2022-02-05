@@ -1,11 +1,8 @@
 steps:
-#  - name: 'gcr.io/cloud-builders/gcloud'
-#    entrypoint: 'bash'
-#    args: [ '-c', "gcloud secrets versions access latest --secret=pull-request-size --format='get(payload.data)' --format='get(payload.data)' | tr '_-' '/+' | base64 -d > app.yaml" ]
-#  - name: 'gcr.io/cloud-builders/docker'
-#    args: [ 'build', '-t', 'gcr.io/gs-development-168620/github.com/pull-request-size', '.', '--no-cache']
-#  - name: 'gcr.io/cloud-builders/docker'
-#    args: [ 'push', 'gcr.io/gs-development-168620/github.com/pull-request-size' ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'build', '-t', 'gcr.io/gs-development-168620/github.com/pull-request-size', '.', '--no-cache']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [ 'push', 'gcr.io/gs-development-168620/github.com/pull-request-size' ]
   - name: 'gcr.io/cloud-builders/gcloud'
     args: [ 'run', 'deploy', 'pull-request-size', '--update-secrets=/secrets/api/key=pull-request-size:latest', '--project=gs-development-168620', '--image', 'gcr.io/gs-development-168620/github.com/pull-request-size', '--quiet', '--region', 'us-east4']
     timeout: 1200s
